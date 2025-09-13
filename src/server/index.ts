@@ -41,7 +41,23 @@ export async function startServer() {
       app.get('/capabilities', (req: Request, res: Response) => {
         res.json({
           capabilities: {
-            tools: {},
+            tools: {
+              notion_pages: {
+                description: "Perform various page operations (create, archive, restore, search, update)"
+              },
+              notion_blocks: {
+                description: "Perform various block operations (retrieve, update, delete, append children, batch operations)"
+              },
+              notion_database: {
+                description: "Perform various database operations (create, query, update)"
+              },
+              notion_comments: {
+                description: "Perform various comment operations (get, add to page, add to discussion)"
+              },
+              notion_users: {
+                description: "Perform various user operations (list, get, get bot)"
+              }
+            },
             resources: {},
             prompts: {}
           },
