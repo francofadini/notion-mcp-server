@@ -16,15 +16,15 @@ WORKDIR /app
 COPY --from=builder /app/build /app/build
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/package-lock.json ./
-COPY http-wrapper.js ./
 
 ENV NODE_ENV=production
+ENV USE_SSE=true
 
 RUN npm ci --ignore-scripts --omit-dev
 RUN npm install express cors
 
-# Expose port for HTTP access
+# Expose port for SSE access
 EXPOSE 3000
 
-# Use HTTP wrapper to expose MCP server via HTTP
-CMD ["node", "http-wrapper.js"]
+# Use original MCP server with SSE transport
+CMD ["node", "build/index.js"]
