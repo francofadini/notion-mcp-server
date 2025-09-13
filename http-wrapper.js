@@ -15,22 +15,19 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'notion-mcp-server' });
 });
 
-// OAuth auth endpoint - minimal implementation
-app.get('/auth', (req, res) => {
-  const state = req.query.state || 'default';
-  const redirectUri = req.query.redirect_uri || 'https://claude.ai/api/mcp/auth_callback';
-  
-  // Simple mock auth - redirect back with success
-  const callbackUrl = `${redirectUri}?code=mock_code&state=${state}`;
-  res.redirect(callbackUrl);
-});
-
-// OAuth callback endpoint - minimal implementation  
-app.post('/callback', (req, res) => {
+// MCP capabilities endpoint - required for authless servers
+app.get('/capabilities', (req, res) => {
   res.json({
-    access_token: 'mock_token',
-    token_type: 'Bearer',
-    expires_in: 3600
+    capabilities: {
+      tools: {},
+      resources: {},
+      prompts: {}
+    },
+    protocolVersion: "2024-11-05",
+    serverInfo: {
+      name: "notion-mcp-server",
+      version: "1.0.1"
+    }
   });
 });
 
